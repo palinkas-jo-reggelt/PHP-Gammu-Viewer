@@ -68,8 +68,9 @@
 	  else if($row['Number']=="5095559876") echo "<td>Chris</td>";   // <-Edit name & number to display name
 	  else if($row['Number']=="4045554567") echo "<td>Mark</td>";    // <-Edit name & number to display name
 	  else if($row['Number']=="5615550001") echo "<td>Darren</td>";  // <-Edit name & number to display name
-	  else echo "<td>" . $row['Number'] . "</td>";
-	echo "<td colspan='3'>" . $row['TextDecoded'] . "</td>";
+	  else echo "<td>".$row['Number']."</td>";
+	$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
+	echo "<td colspan='3'>".$textMsg."</td>";
 
 	echo "</tr>";
 	}
