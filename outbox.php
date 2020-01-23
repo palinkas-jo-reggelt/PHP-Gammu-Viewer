@@ -2,7 +2,7 @@
 <?php include("cred.php") ?>
 <?php
 
-	$resultob = mysqli_query($con,"SELECT Status, DATE_FORMAT(SendingDateTime, '%y/%m/%d %H:%i.%s') as TimeStamp, DestinationNumber as Number, TextDecoded FROM outbox");
+	$res_outbox = mysqli_query($con,"SELECT Status, DATE_FORMAT(SendingDateTime, '%y/%m/%d %H:%i.%s') as TimeStamp, DestinationNumber as Number, TextDecoded FROM outbox");
 
 	echo "<b>CURRENT OUTBOX</b>:<br />";
 	echo "<table class='section'>
@@ -15,7 +15,7 @@
 
 	echo "<tr>";
 
-	while($row = mysqli_fetch_array($resultob)){
+	while($row = mysqli_fetch_array($res_outbox)){
 		if($row['Status']=="Reserved") echo "<td style='background-color: #008000;text-align:center;'>R</td>"; 
 		  else echo "<td>" . $row['Status'] . "</td>";
 		echo "<td>" . $row['TimeStamp'] . "</td>";
