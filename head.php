@@ -12,30 +12,18 @@
 <body>
 
 <div class="header">
-
 	<div class="banner">
-		<div class="banner-left"><a href="./">
+		<a href="./">
+		<div class="banner-left">
 			<div class="banner-left-left"><h1>S</h1></div>
 			<div class="banner-left-right"><h1>M</h1></div>
-			</a>
 			<div class="clear"></div>
 		</div>
 		<div class="banner-right"><h1>S</h1>
 		</div>	
 		<div class="clear"></div>
+		</a>
 	</div>
-	<div class="clear"></div>
-
-	<!--div class="headlinks">
-	<div class="headlinkwidth">
-		<ul>
-			<li><a href="./"><h2>messages</h2></a></li>
-			<li><a href="send.php"><h2>send</h2></a></li>
-			<li><a href="search.php"><h2>search</h2></a></li>
-		</ul>
-	</div>
-	</div-->
-
 </div>
 
 <div class="wrapper">
