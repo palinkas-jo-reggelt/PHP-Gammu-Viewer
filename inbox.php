@@ -76,9 +76,9 @@
 	}
 	echo "<tr>";
 	echo "<td colspan='3', style='color:white;background-color:#666666;opacity:0.5;text-align:right;'>Color Key Code:</td>";
-	echo "<td style='color:white;background-color:#008000;opacity:0.35;text-align:center;'>S = SENT</td>";
-	echo "<td style='color:white;background-color:#0000FF;opacity:0.35;text-align:center;'>I = INBOX</td>";
-	echo "<td style='color:white;background-color:#FF0000;opacity:0.35;text-align:center;'>E = ERROR</td>";
+	echo "<td style='color:white;background-color:#008000;opacity:0.4;text-align:center;'>S = SENT</td>";
+	echo "<td style='color:white;background-color:#0000FF;opacity:0.4;text-align:center;'>I = INBOX</td>";
+	echo "<td style='color:white;background-color:#FF0000;opacity:0.4;text-align:center;'>E = ERROR</td>";
 	echo "</tr>";
 
 	mysqli_close($con);
