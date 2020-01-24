@@ -1,6 +1,6 @@
 <div class="section">
 <b>SEND MESSAGE</b>:<br /><br />
-<form action="insert.php" method="post">
+<form action="insert.php" method="POST">
 	<table style="font-size: 10pt">
 		<tr>
 			<td>Mobile Number: </td>
@@ -16,10 +16,10 @@
 		</tr>
 		<tr>
 			<td>Message: </td>
-			<td><textarea name="Message" id="Message" rows="5" cols="30" maxlength="155"></textarea></td>
+			<td><textarea name="Message" id="Message" rows="5" cols="30" maxlength="999"></textarea></td>
 		</tr>
 		<tr>
-			<td></td><td>(Max length: 155 char)</td>
+			<td></td><td>(Max length: 999 char)</td>
 		</tr>
 		<tr>
 			<td></td>
