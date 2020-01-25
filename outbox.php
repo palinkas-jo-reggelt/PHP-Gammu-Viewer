@@ -3,7 +3,7 @@
 <?php include("contacts.php") ?>
 <?php
 
-	$resultob = mysqli_query($con,"
+	$sql = "
 		(SELECT 	
 			a.ID,
 			a.Status,
@@ -23,8 +23,8 @@
 		FROM outbox a JOIN outbox_multipart b
 			 on a.ID = b.ID )  
 		ORDER BY ID ASC, Sequence ASC
-	");
-
+	";
+	$res_outbox = mysqli_query($con,$sql);
 	echo "<b>CURRENT OUTBOX</b>:<br />";
 	echo "<table class='section'>
 	<tr>
@@ -34,22 +34,26 @@
 	<th colspan='2'>Message</th>
 	</tr>";
 
-	echo "<tr>";
+	while($row = mysqli_fetch_array($res_outbox)){
+		echo "<tr>";
 
-	while($row = mysqli_fetch_array($resultob)){
-		if (($row['Status']=="SendingOK") || ($row['Status']=="SendingOKNoReport") || ($row['Status']=="Reserved")) echo "<td style='background-color:#008000;color:white;text-align:center;'>O</td>"; 
-		  else echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>";
-		echo "<td>".date("y/m/d H:i.s", strtotime($row['SendingDateTime']))."</td>";
-		$num = str_replace($countrycode, '', $row['Number']);
-		if(array_key_exists($num,$arrayNames)) {
-			echo "<td>".$arrayNames[$num]."</td>";
+		if (($row['Status']=="SendingOK") || ($row['Status']=="SendingOKNoReport") || ($row['Status']=="Reserved")) {
+			echo "<td style='background-color:#008000;color:white;text-align:center;'>O</td>"; 
 		} else {
-			echo "<td>".$num."</td>";
+			echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>";
 		}
+
+		echo "<td>".date("y/m/d H:i.s", strtotime($row['SendingDateTime']))."</td>";
+
+		$num = str_replace($countrycode, '', $row['Number']);
+		if (array_key_exists($num,$arrayNames)) {echo "<td>".$arrayNames[$num]."</td>";} else {echo "<td>".$num."</td>";}
+
 		$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
 		echo "<td colspan='3'>".$textMsg."</td>";
+
 		echo "</tr>";
-	}
+	} //mysqli_fetch_array
+
 	echo "<tr>";
 	echo "<td colspan='3', style='color:white;background-color:#666666;opacity:0.5;text-align:right;'>Color Key Code:</td>";
 	echo "<td style='color:white;background-color:#008000;opacity:0.4;text-align:center;'>O = OK</td>";
