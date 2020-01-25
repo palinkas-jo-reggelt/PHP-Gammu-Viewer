@@ -1,4 +1,5 @@
 <?php include("cred.php") ?>
+<?php include("contacts.php") ?>
 <?php
 
 	if (isset($_GET['page'])) {$page = $_GET['page'];} else {$page = 1;}
@@ -27,13 +28,15 @@
 	$total_rows = mysqli_fetch_array($result)[0];
 	$total_pages = ceil($total_rows / $no_of_records_per_page);
 
-	$sql = "SELECT Status, DATE_FORMAT(ReceivingDateTime, '%y/%m/%d %H:%i.%s') as TimeStamp, SenderNumber as Number, TextDecoded 
-			FROM inbox".$search_inbox_sql." 
-			UNION ALL 
-			SELECT Status, DATE_FORMAT(SendingDateTime, '%y/%m/%d %H:%i:%s') as TimeStamp, DestinationNumber as Number, TextDecoded 
-			FROM sentitems".$search_outbox_sql." 
-			ORDER BY TimeStamp DESC  
-			LIMIT $offset, $no_of_records_per_page";
+	$sql = "
+		SELECT Status, DATE_FORMAT(ReceivingDateTime, '%y/%m/%d %H:%i.%s') as TimeStamp, SenderNumber as Number, TextDecoded 
+		FROM inbox".$search_inbox_sql." 
+		UNION ALL 
+		SELECT Status, DATE_FORMAT(SendingDateTime, '%y/%m/%d %H:%i:%s') as TimeStamp, DestinationNumber as Number, TextDecoded 
+		FROM sentitems".$search_outbox_sql." 
+		ORDER BY TimeStamp DESC  
+		LIMIT ".$offset.", ".$no_of_records_per_page;
+
 	$res_data = mysqli_query($con,$sql);
 
 	if ($total_rows == 1) {$singular = '';} else {$singular= 's';}
@@ -59,20 +62,21 @@
 
 	while($row = mysqli_fetch_array($res_data)){
 
-	echo "<tr>";
+		echo "<tr>";
 
-	if($row['Status']=="SendingOKNoReport") echo "<td style='color:white; background-color: #008000;text-align:center;'>S</td>"; 
-		else if($row['Status']=="SendingError") echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>"; 
-		else echo "<td style='color:white; background-color: #0000FF;text-align:center;'>I</td>"; 
-	echo "<td>".$row['TimeStamp']."</td>";
-	if($row['Number']=="2125551234") echo "<td>John</td>";           // <-Edit name & number to display name
-	  else if($row['Number']=="5095559876") echo "<td>Chris</td>";   // <-Edit name & number to display name
-	  else if($row['Number']=="4045554567") echo "<td>Mark</td>";    // <-Edit name & number to display name
-	  else if($row['Number']=="5615550001") echo "<td>Darren</td>";  // <-Edit name & number to display name
-		else echo "<td>".$row['Number']."</td>";
-	$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
-	echo "<td colspan='3'>".$textMsg."</td>";
-	echo "</tr>";
+		if($row['Status']=="SendingOKNoReport") echo "<td style='color:white; background-color: #008000;text-align:center;'>S</td>"; 
+			else if($row['Status']=="SendingError") echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>"; 
+			else echo "<td style='color:white; background-color: #0000FF;text-align:center;'>I</td>"; 
+		echo "<td>".$row['TimeStamp']."</td>";
+		$num = str_replace($countrycode, '', $row['Number']);
+		if(array_key_exists($num,$arrayNames)) {
+			echo "<td>".$arrayNames[$num]."</td>";
+		} else {
+			echo "<td>".$num."</td>";
+		}
+		$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
+		echo "<td colspan='3'>".$textMsg."</td>";
+		echo "</tr>";
 	} //mysqli_fetch_array
 
 	echo "<tr>";
