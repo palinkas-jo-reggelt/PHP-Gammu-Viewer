@@ -4,6 +4,8 @@ Just a simple PHP frontend for Gammu SMS that allows you to view outbox & inbox,
 
 Nothing fancy here - no Restful API, no contact database, no mass-SMS. This frontend uses the unaltered Gammu database only. Other Gammu functions should be scripted using gammu-smsd-inject. Frequent contact names (instead of numbers) can be displayed by editing contacts.php.
 
+I just wanted a simple viewer to see messages generated programmatically by other scripts. That's all this is, with a couple of extra very minor features.
+
 
 ## Prerequisites
 

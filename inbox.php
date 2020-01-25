@@ -61,21 +61,20 @@
 		</tr>";
 
 	while($row = mysqli_fetch_array($res_data)){
-
 		echo "<tr>";
 
 		if($row['Status']=="SendingOKNoReport") echo "<td style='color:white; background-color: #008000;text-align:center;'>S</td>"; 
 			else if($row['Status']=="SendingError") echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>"; 
 			else echo "<td style='color:white; background-color: #0000FF;text-align:center;'>I</td>"; 
+
 		echo "<td>".$row['TimeStamp']."</td>";
+
 		$num = str_replace($countrycode, '', $row['Number']);
-		if(array_key_exists($num,$arrayNames)) {
-			echo "<td>".$arrayNames[$num]."</td>";
-		} else {
-			echo "<td>".$num."</td>";
-		}
+		if (array_key_exists($num,$arrayNames)) {echo "<td>".$arrayNames[$num]."</td>";} else {echo "<td>".$num."</td>";}
+
 		$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
 		echo "<td colspan='3'>".$textMsg."</td>";
+
 		echo "</tr>";
 	} //mysqli_fetch_array
 
@@ -88,19 +87,21 @@
 
 	echo "<tr>";
 	echo "<td colspan='3'>";
-
 	echo "<ul>";
+
 	if ($page <= 1){echo "<li>First </li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=1\">First </a><li>";}
 	if ($page <= 1){echo "<li>Prev </li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=".($page - 1)."\">Prev </a></li>";}
 	if ($page >= $total_pages){echo "<li>Next </li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=".($page + 1)."\">Next </a></li>";}
 	if ($page >= $total_pages){echo "<li>Last</li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=".$total_pages."\">Last</a></li>";}
-	echo "</ul>";
 
+	echo "</ul>";
 	echo "</td>";
 	echo "<td colspan='3' style='text-align:right'>";
+
 	echo "<form action='./' method='GET'>";
 	echo "Search Messages: <input type='text' size='20' name='search'><input type='submit' name='submit' value='Search' >";
 	echo "</form>";
+
 	echo "</td>";
 	echo "</tr>";
 	echo "</table>";
