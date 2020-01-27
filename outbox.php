@@ -1,7 +1,11 @@
 <div class="section">
-<?php include("cred.php") ?>
-<?php include("contacts.php") ?>
+<?php include("config.php") ?>
 <?php
+	$con = mysqli_connect($Database['host'], $Database['username'], $Database['password'], $Database['dbname']);
+	if (mysqli_connect_errno()) {
+		printf("Connect failed: %s\n", mysqli_connect_error());
+		exit();
+	}
 
 	$sql = "
 		(SELECT 	
@@ -43,10 +47,10 @@
 			echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>";
 		}
 
-		echo "<td>".date("y/m/d H:i.s", strtotime($row['SendingDateTime']))."</td>";
+		echo "<td>".date("y/m/d H:i:s", strtotime($row['SendingDateTime']))."</td>";
 
-		$num = str_replace($countrycode, '', $row['Number']);
-		if (array_key_exists($num,$arrayNames)) {echo "<td>".$arrayNames[$num]."</td>";} else {echo "<td>".$num."</td>";}
+		$num = str_replace($ServerLocation['CountryCode'], '', $row['Number']);
+		if (array_key_exists($num,$Contacts)) {echo "<td>".$Contacts[$num]."</td>";} else {echo "<td>".$num."</td>";}
 
 		$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
 		echo "<td colspan='3'>".$textMsg."</td>";

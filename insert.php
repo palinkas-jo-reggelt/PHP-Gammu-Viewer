@@ -1,9 +1,15 @@
-<?php include("cred.php") ?>
+<?php include("config.php") ?>
 <?php
+	$con = mysqli_connect($Database['host'], $Database['username'], $Database['password'], $Database['dbname']);
+	if (mysqli_connect_errno()) {
+		printf("Connect failed: %s\n", mysqli_connect_error());
+		exit();
+	}
+	$pdo = new PDO('mysql:host='.$Database['host'].';dbname='.$Database['dbname'].'', ''.$Database['username'].'', ''.$Database['password'].'');
 
 	function repairNumber($number) {
 		$number = str_replace(' ', '', $number);
-		return str_replace('+33', '0', $number);
+		return str_replace($ServerLocation['CountryCode'], $ServerLocation['Country'], $number);
 	}
 
 	function secure($string) {

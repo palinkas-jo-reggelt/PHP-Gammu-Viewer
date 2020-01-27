@@ -1,6 +1,10 @@
-<?php include("cred.php") ?>
-<?php include("contacts.php") ?>
+<?php include("config.php") ?>
 <?php
+	$con = mysqli_connect($Database['host'], $Database['username'], $Database['password'], $Database['dbname']);
+	if (mysqli_connect_errno()) {
+		printf("Connect failed: %s\n", mysqli_connect_error());
+		exit();
+	}
 
 	if (isset($_GET['page'])) {$page = $_GET['page'];} else {$page = 1;}
 	if (isset($_GET['submit'])) {$button = $_GET ['submit'];} else {$button = "";}
@@ -20,20 +24,37 @@
 		SELECT
 			Sum( a.count )
 		FROM(
-			SELECT Count( * ) AS count FROM inbox".$search_inbox_sql."
+			SELECT 
+				Count( * ) AS count 
+			FROM inbox
+			".$search_inbox_sql."
 			UNION ALL
-			SELECT Count( * ) AS count FROM sentitems".$search_outbox_sql."
-		) a";
+			SELECT 
+				Count( * ) AS count 
+			FROM sentitems
+			".$search_outbox_sql."
+		) a
+	";
 	$result = mysqli_query($con,$total_pages_sql);
 	$total_rows = mysqli_fetch_array($result)[0];
 	$total_pages = ceil($total_rows / $no_of_records_per_page);
 
 	$sql = "
-		SELECT Status, DATE_FORMAT(ReceivingDateTime, '%y/%m/%d %H:%i.%s') as TimeStamp, SenderNumber as Number, TextDecoded 
-		FROM inbox".$search_inbox_sql." 
+		SELECT 
+			Status, 
+			DATE_FORMAT(ReceivingDateTime, '%y/%m/%d %H:%i:%s') as TimeStamp, 
+			SenderNumber as Number, 
+			TextDecoded 
+		FROM inbox
+		".$search_inbox_sql." 
 		UNION ALL 
-		SELECT Status, DATE_FORMAT(SendingDateTime, '%y/%m/%d %H:%i:%s') as TimeStamp, DestinationNumber as Number, TextDecoded 
-		FROM sentitems".$search_outbox_sql." 
+		SELECT 
+			Status, 
+			DATE_FORMAT(SendingDateTime, '%y/%m/%d %H:%i:%s') as TimeStamp, 
+			DestinationNumber as Number, 
+			TextDecoded 
+		FROM sentitems
+		".$search_outbox_sql." 
 		ORDER BY TimeStamp DESC  
 		LIMIT ".$offset.", ".$no_of_records_per_page;
 
@@ -63,14 +84,14 @@
 	while($row = mysqli_fetch_array($res_data)){
 		echo "<tr>";
 
-		if($row['Status']=="SendingOKNoReport") echo "<td style='color:white; background-color: #008000;text-align:center;'>S</td>"; 
-			else if($row['Status']=="SendingError") echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>"; 
-			else echo "<td style='color:white; background-color: #0000FF;text-align:center;'>I</td>"; 
+		if($row['Status']=="SendingOKNoReport") { echo "<td style='color:white; background-color: #008000;text-align:center;'>S</td>"; }
+			else if ($row['Status']=="SendingError") { echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>"; }
+			else { echo "<td style='color:white; background-color: #0000FF;text-align:center;'>I</td>"; }
 
 		echo "<td>".$row['TimeStamp']."</td>";
 
-		$num = str_replace($countrycode, '', $row['Number']);
-		if (array_key_exists($num,$arrayNames)) {echo "<td>".$arrayNames[$num]."</td>";} else {echo "<td>".$num."</td>";}
+		$num = str_replace($ServerLocation['CountryCode'], '', $row['Number']);
+		if (array_key_exists($num,$Contacts)) {echo "<td>".$Contacts[$num]."</td>";} else {echo "<td>".$num."</td>";}
 
 		$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
 		echo "<td colspan='3'>".$textMsg."</td>";

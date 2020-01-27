@@ -17,7 +17,5 @@ I just wanted a simple viewer to see messages generated programmatically by othe
 ## Instructions
 
 * Drop files into web server folder
-* Edit MySQL variables in cred.php
+* Edit variables in config.php
 * Edit .htaccess to allow your LAN subnet (or delete if you don't want any security)
-* Edit $countrycode in contacts.php
-* (Optional) Edit contacts.php names/numbers to display names instead of mobile numbers for frequent contacts
