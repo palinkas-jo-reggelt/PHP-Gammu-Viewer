@@ -9,7 +9,7 @@
 
 	function repairNumber($number) {
 		$number = str_replace(' ', '', $number);
-		return str_replace($ServerLocation['CountryCode'], $ServerLocation['Country'], $number);
+		return str_replace($ServerLocation['CountryCode'], '', $number);
 	}
 
 	function secure($string) {
@@ -29,6 +29,7 @@
 	 
 	// https://github.com/moulinraphael/gammu/blob/master/sendsms.php
 	$num = secure(repairNumber($MobileNumber));
+	// $message = utf8_decode(addslashes($MessagePost));
 	$message = utf8_decode($MessagePost);
 	$messages = str_split($message, 153); //On fait des blocs de 153 caractères pour Gammu
 	$message = array_shift($messages);

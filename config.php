@@ -13,8 +13,7 @@ $Database = array (
 /* Location Variables */
 
 $ServerLocation = array (
-	'CountryCode' => '+1', // telephone country code prefix
-	'USA'         => ''    // blank for USA, '0' for international
+	'CountryCode' => '+1' // telephone country code prefix
 );
 
 
