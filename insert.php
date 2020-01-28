@@ -5,7 +5,7 @@
 		printf("Connect failed: %s\n", mysqli_connect_error());
 		exit();
 	}
-	$pdo = new PDO('mysql:host='.$Database['host'].';dbname='.$Database['dbname'].'', ''.$Database['username'].'', ''.$Database['password'].'');
+	$pdo = new PDO("mysql:host=".$Database['host'].";dbname=".$Database['dbname'], $Database['username'], $Database['password']);
 
 	function repairNumber($number) {
 		$number = str_replace(' ', '', $number);
