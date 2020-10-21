@@ -1,5 +1,15 @@
 <?php
 
+/*	Site Logon Variables 
+	Username and password to allow access to site
+*/
+
+$user_name = 'admin';
+$pass_word = 'supersecretpassword';
+
+// Cookie Duration in days
+$cookie_duration = 90; 
+
 /* Database Variables */
 
 $Database = array (

@@ -1,3 +1,15 @@
+<?php
+	include_once("config.php");
+
+	if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+		if (!(($_COOKIE['username'] === $user_name) && ($_COOKIE['password'] === md5($pass_word)))) {
+			header('Location: login.php');
+		}
+	} else {
+		header('Location: login.php');
+	}
+?>
+
 <!DOCTYPE html> 
 <html>
 <head>
