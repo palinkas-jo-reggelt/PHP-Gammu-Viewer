@@ -4,7 +4,7 @@
 
 	$ismsg_sql = $pdo->prepare("SELECT COUNT(id) FROM outbox");
 	$ismsg_sql->execute();
-	$outbox_records = $sql->fetchColumn();
+	$outbox_records = $ismsg_sql->fetchColumn();
 
 	$sql = $pdo->prepare("
 		(SELECT 	
