@@ -45,6 +45,12 @@ $ServerLocation = array (
 	'CountryCode' => '+1' // telephone country code prefix
 );
 
+/*  TimeZone required to determine if gammu is connected or not - status.php
+    https://www.php.net/manual/en/timezones.php
+*/
+
+$TimeZone = 'America/New_York';
+
 /*  Contact Variables */
 /*  Optional - change if you want to use real names/numbers - leaving the examples will not harm anything */
 
