@@ -46,6 +46,7 @@ $ServerLocation = array (
 );
 
 /*  TimeZone required to determine if gammu is connected or not - status.php
+	TimeZone offset required to compare last update in database against current time
     https://www.php.net/manual/en/timezones.php
 */
 
