@@ -16,13 +16,14 @@
 	}
 
 	function secure($string) {
-        return trim(htmlspecialchars(addslashes($string)));
+		return trim(htmlspecialchars(addslashes($string)));
 	}
 
 	function onlyLetters($string, $strong = false) {
-		if ($strong)
+		if ($strong){
 			return preg_replace('/[^\p{L}\p{N} ]+/', '', $string);
 			return preg_replace('/[^\p{L}\p{N} \'.-]+/', '', $string);
+		}
 	}
 
 ?>
