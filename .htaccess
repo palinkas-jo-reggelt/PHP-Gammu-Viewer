@@ -1,6 +1,5 @@
-# Edit to match LAN subnet
-
 order deny,allow
-deny from all
+#deny from all
 allow from 127.0.0.1
-allow from 192.168.1
+# Uncomment/edit to match LAN subnet
+allow from 192.168.99

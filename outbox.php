@@ -1,13 +1,9 @@
 <div class="section">
-<?php include("config.php") ?>
 <?php
-	$con = mysqli_connect($Database['host'], $Database['username'], $Database['password'], $Database['dbname']);
-	if (mysqli_connect_errno()) {
-		printf("Connect failed: %s\n", mysqli_connect_error());
-		exit();
-	}
+	include_once("config.php");
+	include_once("functions.php");
 
-	$sql = "
+	$sql = $pdo->prepare("
 		(SELECT 	
 			a.ID,
 			a.Status,
@@ -27,8 +23,8 @@
 		FROM outbox a JOIN outbox_multipart b
 			 on a.ID = b.ID )  
 		ORDER BY ID ASC, Sequence ASC
-	";
-	$res_outbox = mysqli_query($con,$sql);
+	");
+	$sql->execute();
 	echo "<b>CURRENT OUTBOX</b>:<br />";
 	echo "<table class='section'>
 	<tr>
@@ -38,7 +34,7 @@
 	<th colspan='2'>Message</th>
 	</tr>";
 
-	while($row = mysqli_fetch_array($res_outbox)){
+	while($row = $sql->fetch(PDO::FETCH_ASSOC)){
 		echo "<tr>";
 
 		if (($row['Status']=="SendingOK") || ($row['Status']=="SendingOKNoReport") || ($row['Status']=="Reserved")) {
@@ -65,6 +61,5 @@
 	echo "</tr>";
 	echo "</table>";
 
-	mysqli_close($con);
 ?>
 </div>

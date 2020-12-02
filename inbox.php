@@ -1,14 +1,10 @@
-<?php include("config.php") ?>
 <?php
-	$con = mysqli_connect($Database['host'], $Database['username'], $Database['password'], $Database['dbname']);
-	if (mysqli_connect_errno()) {
-		printf("Connect failed: %s\n", mysqli_connect_error());
-		exit();
-	}
+	include_once("config.php");
+	include_once("functions.php");
 
 	if (isset($_GET['page'])) {$page = $_GET['page'];} else {$page = 1;}
 	if (isset($_GET['submit'])) {$button = $_GET ['submit'];} else {$button = "";}
-	if (isset($_GET['search'])) {$search = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim($_GET['search'])));} else {$search = "";}
+	if (isset($_GET['search'])) {$search = preg_replace('/\s+/', ' ',trim($_GET['search']));} else {$search = "";}
 	
 	if ($search==""){
 		$search_inbox_sql = "";
@@ -18,9 +14,8 @@
 		$search_outbox_sql = " WHERE TextDecoded LIKE '%{$search}%' OR DestinationNumber LIKE '%{$search}%'";
 	}
 	
-	$no_of_records_per_page = 10;
 	$offset = ($page-1) * $no_of_records_per_page;
-	$total_pages_sql = "
+	$total_pages_sql = $pdo->prepare("
 		SELECT
 			Sum( a.count )
 		FROM(
@@ -34,12 +29,12 @@
 			FROM sentitems
 			".$search_outbox_sql."
 		) a
-	";
-	$result = mysqli_query($con,$total_pages_sql);
-	$total_rows = mysqli_fetch_array($result)[0];
+	");
+	$total_pages_sql->execute();
+	$total_rows = $total_pages_sql->fetchColumn();
 	$total_pages = ceil($total_rows / $no_of_records_per_page);
 
-	$sql = "
+	$sql = $pdo->prepare("
 		SELECT 
 			Status, 
 			DATE_FORMAT(ReceivingDateTime, '%y/%m/%d %H:%i:%s') as TimeStamp, 
@@ -56,9 +51,9 @@
 		FROM sentitems
 		".$search_outbox_sql." 
 		ORDER BY TimeStamp DESC  
-		LIMIT ".$offset.", ".$no_of_records_per_page;
-
-	$res_data = mysqli_query($con,$sql);
+		LIMIT ".$offset.", ".$no_of_records_per_page
+	);
+	$sql->execute();
 
 	if ($total_rows == 1) {$singular = '';} else {$singular= 's';}
 
@@ -81,7 +76,7 @@
 			<th colspan='3'>Message</th>
 		</tr>";
 
-	while($row = mysqli_fetch_array($res_data)){
+	while($row = $sql->fetch(PDO::FETCH_ASSOC)){
 		echo "<tr>";
 
 		if($row['Status']=="SendingOKNoReport") { echo "<td style='color:white; background-color: #008000;text-align:center;'>S</td>"; }
@@ -93,11 +88,17 @@
 		$num = str_replace($ServerLocation['CountryCode'], '', $row['Number']);
 		if (array_key_exists($num,$Contacts)) {echo "<td>".$Contacts[$num]."</td>";} else {echo "<td>".$num."</td>";}
 
-		$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
+		if ($UseShortURL) {
+			if ($ShortURLSSL){$HTTP = "https://";} else {$HTTP = "http://";}
+			$ShortURLRegex = "(".$ShortURLDomain."\/\S+)";
+			$textMsg = preg_replace($ShortURLRegex, '<a href="'.$HTTP.'$0" target="_blank">$0</a> ', $row['TextDecoded']);
+		} else {
+			$textMsg = $row['TextDecoded'];
+		}
 		echo "<td colspan='3'>".$textMsg."</td>";
 
 		echo "</tr>";
-	} //mysqli_fetch_array
+	} 
 
 	echo "<tr>";
 	echo "<td colspan='3', style='color:white;background-color:#666666;opacity:0.5;text-align:right;'>Color Key Code:</td>";

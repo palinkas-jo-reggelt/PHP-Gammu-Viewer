@@ -7,28 +7,46 @@
 $user_name = 'admin';
 $pass_word = 'supersecretpassword';
 
-// Cookie Duration in days
+/*  Cookie Duration in days  */
 $cookie_duration = 90; 
 
-/* Database Variables */
+/*	Database Variables 
+
+	'dbtype' = database server type
+	
+		For MySQL use dbtype = 'mysql'
+		For MSSQL use dbtype = 'mssql'
+
+	'driver' = connection type
+	
+		For MySQL use driver = 'mysql'
+		For MSSQL use driver = 'mssql'
+		For ODBC  use driver = 'odbc'
+		
+		* When opting for ODBC use correct DSN! *
+		* Example: "MariaDB ODBC 3.0 Driver"    *
+		* Exact spelling is critical!           *
+*/
 
 $Database = array (
+	'dbtype'      => 'mysql',
 	'host'        => 'localhost',
 	'username'    => 'gammu',
 	'password'    => 'supersecretpassword',
-	'dbname'      => 'gammu'
+	'dbname'      => 'gammu',
+	'driver'      => 'mysql',
+	'port'        => '3306',
+	'dsn'         => 'MariaDB ODBC 3.1 Driver'
 );
 
-
-/* Location Variables */
+/*  Location Variables */
 
 $ServerLocation = array (
 	'CountryCode' => '+1' // telephone country code prefix
 );
 
-
-/* Contact Variables */
-/* Optional - change if you want to use real names/numbers - leaving the examples will not harm anything */
+/*  Contact Variables */
+/*  Optional - change if you want to use real names/numbers - leaving the examples will not harm anything */
 
 $Contacts = array (
 	'2125551212' => 'Jim', 
@@ -38,5 +56,16 @@ $Contacts = array (
 	'9999999999' => 'Frank',
 	'' => ''
 );
+
+/*  Custom URL shortner service - converts to http link */
+/*  Enable this if you receive shortlinks without http(s):// prefix  */
+
+$UseShortURL      = False;             // Only use this if your short link service does NOT prefix URLs in text messages with http://
+$ShortURLDomain   = 'url.domain.tld';  // URL your short link service uses for short links (not the name of the service) - works great with yourls
+$ShortURLSSL      = True;              // True prefixes https://, False prefixes http://
+
+/*  MESSAGE HISTORY: Number of records per page */
+
+$no_of_records_per_page = 20;
 
 ?>
