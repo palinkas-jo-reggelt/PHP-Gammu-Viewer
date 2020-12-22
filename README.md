@@ -14,7 +14,7 @@ I just wanted a simple viewer to see messages generated programmatically by othe
 * Long messages are properly sequenced to arrive as a single long message
 * Displays outbox (including long message outbox in sequence)
 * Displays inbox/sent items
-* Displays connection status (Gammu outbox polling status: CONNECTED or DISCONNECTED)
+* Displays connection status: CONNECTED or DISCONNECTED (StatusFrequency in SMSDRC must be enabled and < 90)
 * Search inbox/sent items by keyword or phone number
 * Displays names instead of numbers if configured (from PHP array - no database entries)
 * Mobile browser support (viewport)
