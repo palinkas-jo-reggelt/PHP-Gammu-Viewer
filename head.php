@@ -2,7 +2,7 @@
 	include_once("config.php");
 
 	if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
-		if (!(($_COOKIE['username'] === $user_name) && ($_COOKIE['password'] === md5($pass_word)))) {
+		if (!($_COOKIE['password'] === md5($logins[$_COOKIE['username']]))) {
 			header('Location: login.php');
 		}
 	} else {
@@ -13,7 +13,7 @@
 <!DOCTYPE html> 
 <html>
 <head>
-<title>wap.dynu.net SMS Gateway</title>
+<title>SMS Gateway</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Style-Type" content="text/css">
 <meta name="viewport" content="width=device-width, initial-scale=1">

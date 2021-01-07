@@ -2,8 +2,6 @@
 
 	if ($Database['driver'] == 'mysql') {
 		$pdo = new PDO("mysql:host=".$Database['host'].";port=".$Database['port'].";dbname=".$Database['dbname'], $Database['username'], $Database['password']);
-	} elseIf ($Database['driver'] == 'mssql') {
-		$pdo = new PDO("sqlsrv:Server=".$Database['host'].",".$Database['port'].";Database=".$Database['dbname'], $Database['username'], $Database['password']);
 	} elseIf ($Database['driver'] == 'odbc') {
 		$pdo = new PDO("odbc:Driver={".$Database['dsn']."};Server=".$Database['host'].";Port=".$Database['port'].";Database=".$Database['dbname'].";User=".$Database['username'].";Password=".$Database['password'].";");
 	} else {

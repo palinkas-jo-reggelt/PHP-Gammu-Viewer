@@ -13,7 +13,7 @@
 	if (!$folder){$path = "/";} else {$path = $folder;}
 
 	if (isset($_POST['submit'])) {
-		if (($_POST['username'] === $user_name) && ($_POST['password'] === $pass_word)) {
+		if ($logins[$_POST['username']] === $_POST['password']) {
 			if (isset($_POST['rememberme'])) {
 				/* Set cookie to last 1 year */
 				setcookie('username', $_POST['username'], strtotime( '+'.$cookie_duration.' days' ), $path, $_SERVER["HTTP_HOST"]);
