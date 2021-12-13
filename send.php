@@ -33,8 +33,8 @@
 <script>
     jQuery(function($) {
         $('#datepicker').datetimepicker({ 
-			dateFormat: 'yy-m-d',
-			timeFormat: 'hh:mm:ss',
+			dateFormat: 'yy-mm-dd',
+			timeFormat: 'HH:mm:ss',
 			minDate: 0
 		}).val();
     });
