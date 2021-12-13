@@ -10,8 +10,8 @@
 		$search_inbox_sql = "";
 		$search_outbox_sql = "";
 	} else {
-		$search_inbox_sql = " WHERE TextDecoded LIKE '%{$search}%' OR SenderNumber LIKE '%{$search}%'";
-		$search_outbox_sql = " WHERE TextDecoded LIKE '%{$search}%' OR DestinationNumber LIKE '%{$search}%'";
+		$search_inbox_sql = " WHERE TextDecoded LIKE '%".$search."%' OR SenderNumber LIKE '%".$search."%'";
+		$search_outbox_sql = " WHERE TextDecoded LIKE '%".$search."%' OR DestinationNumber LIKE '%".$search."%'";
 	}
 	
 	$offset = ($page-1) * $no_of_records_per_page;
@@ -57,8 +57,10 @@
 
 	if ($total_rows == 1) {$singular = '';} else {$singular= 's';}
 
-	echo "<div class=\"section\">";
-	if ($search==""){
+	echo "
+	<div class='section'>";
+	
+	if ($search == ""){
 		echo "<b>MESSAGE HISTORY</b>: ".$total_rows." Messages (Page: ".$page." of ".$total_pages.")";
 	} else {
 		if ($total_rows == 0){
@@ -68,64 +70,81 @@
 		}
 	}
 	
-	echo "<table class='section'>
-		<tr>
-			<th> </th>
-			<th>Timestamp</th>
-			<th>Number</th>
-			<th colspan='3'>Message</th>
-		</tr>";
+	echo "
+		<div class='overborder'>
+			<div class='div-table'>
+				<div class='div-table-row-header'>
+					<div class='div-table-col center narrow'></div>
+					<div class='div-table-col timestamp'>TimeStamp</div>
+					<div class='div-table-col number'>Number</div>
+					<div class='div-table-col'>Message</div>
+				</div>
+	";
 
 	while($row = $sql->fetch(PDO::FETCH_ASSOC)){
-		echo "<tr>";
+		echo "
+				<div class='div-table-row'>
+		";
 
-		if($row['Status']=="SendingOKNoReport") { echo "<td style='color:white; background-color: #008000;text-align:center;'>S</td>"; }
-			else if ($row['Status']=="SendingError") { echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>"; }
-			else { echo "<td style='color:white; background-color: #0000FF;text-align:center;'>I</td>"; }
+		if($row['Status']=="SendingOKNoReport") {
+			echo "	<div class='div-table-col green narrow' data-column='Sent'>&nbsp;</div>";
+			$tofrom = "To";
+		} else if ($row['Status']=="SendingError") {
+			echo "	<div class='div-table-col red narrow' data-column='Error'>&nbsp;</div>";
+			$tofrom = "To";
+		} else {
+			echo "	<div class='div-table-col blue narrow' data-column='Inbox'>&nbsp;</div>";
+			$tofrom = "From";
+		}
 
-		echo "<td>".$row['TimeStamp']."</td>";
+		echo "		<div class='div-table-col center timestamp' data-column='Timestamp'>".$row['TimeStamp']."</div>";
 
 		$num = str_replace($ServerLocation['CountryCode'], '', $row['Number']);
-		if (array_key_exists($num,$Contacts)) {echo "<td>".$Contacts[$num]."</td>";} else {echo "<td>".$num."</td>";}
+		if (array_key_exists($num,$Contacts)) {
+			echo "	<div class='div-table-col number' data-column='".$tofrom."'>".$Contacts[$num]."</div>";
+		} else {
+			echo "	<div class='div-table-col number' data-column='".$tofrom."'>".displayMobileNumber($num)."</div>";
+		}
 
 		if ($UseShortURL) {
 			if ($ShortURLSSL){$HTTP = "https://";} else {$HTTP = "http://";}
-			$ShortURLRegex = "(".$ShortURLDomain."\/\S+)";
-			$textMsg = preg_replace($ShortURLRegex, '<a href="'.$HTTP.'$0" target="_blank">$0</a> ', $row['TextDecoded']);
+			$ShortURLRegex = "((".$ShortURLDomain.")\/\S+)";
+			$textMsg = preg_replace($ShortURLRegex, '<a href="'.$HTTP.'$0" target="_blank">$0</a>', $row['TextDecoded']);
 		} else {
 			$textMsg = $row['TextDecoded'];
 		}
-		echo "<td colspan='3'>".$textMsg."</td>";
+		echo "		<div class='div-table-col' data-column='Message'>".$textMsg."</div>";
 
-		echo "</tr>";
+		echo "
+				</div>"; // End of div-table-row
 	} 
 
-	echo "<tr>";
-	echo "<td colspan='3', style='color:white;background-color:#666666;opacity:0.5;text-align:right;'>Color Key Code:</td>";
-	echo "<td style='color:white;background-color:#008000;opacity:0.4;text-align:center;'>S = SENT</td>";
-	echo "<td style='color:white;background-color:#0000FF;opacity:0.4;text-align:center;'>I = INBOX</td>";
-	echo "<td style='color:white;background-color:#FF0000;opacity:0.4;text-align:center;'>E = ERROR</td>";
-	echo "</tr>";
+			
+	echo "
+			</div>"; //End of div-table
 
-	echo "<tr>";
-	echo "<td colspan='3'>";
-	echo "<ul>";
+	echo "
+			<div class='secleft'>
+	";
 
 	if ($page <= 1){echo "<li>First </li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=1\">First </a><li>";}
 	if ($page <= 1){echo "<li>Prev </li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=".($page - 1)."\">Prev </a></li>";}
 	if ($page >= $total_pages){echo "<li>Next </li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=".($page + 1)."\">Next </a></li>";}
 	if ($page >= $total_pages){echo "<li>Last</li>";} else {echo "<li><a href=\"?submit=Search&search=".$search."&page=".$total_pages."\">Last</a></li>";}
 
-	echo "</ul>";
-	echo "</td>";
-	echo "<td colspan='3' style='text-align:right'>";
+	echo "
+			</div>
+			<div class='secright'>
+				<form action='".$_SERVER["REQUEST_URI"]."' method='GET'>
+					<input type='text' size='20' name='search'> <input type='submit' name='submit' value='Search' >
+				</form>
+			</div>
+			<div class='clear'></div>";
 
-	echo "<form action='./' method='GET'>";
-	echo "Search Messages: <input type='text' size='20' name='search'><input type='submit' name='submit' value='Search' >";
-	echo "</form>";
+	echo "
+		</div>"; //End of overborder
 
-	echo "</td>";
-	echo "</tr>";
-	echo "</table>";
-	echo "</div>";
+	echo "
+	</div>"; //End of section
+
 ?>

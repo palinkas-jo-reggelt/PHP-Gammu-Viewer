@@ -17,7 +17,7 @@ I just wanted a simple viewer to see messages generated programmatically by othe
 * Displays connection status: CONNECTED or DISCONNECTED (StatusFrequency in SMSDRC must be enabled and < 90)
 * Search inbox/sent items by keyword or phone number
 * Displays names instead of numbers if configured (from PHP array - no database entries)
-* Mobile browser support (viewport)
+* Mobile browser support (turns wide tables into cards)
 
 ## Prerequisites
 
@@ -29,5 +29,5 @@ I just wanted a simple viewer to see messages generated programmatically by othe
 ## Instructions
 
 * Drop files into web server folder
-* Edit variables in config.php
+* Rename config.php.dist to config.php and edit variables
 * Edit .htaccess to allow your LAN subnet (or delete if you don't want any security)

@@ -24,4 +24,16 @@
 		}
 	}
 
+	function displayMobileNumber($mobilenumber){
+		if (preg_match('/^(\d{3})(\d{3})(\d{4})$/', $mobilenumber,  $matches )){
+			$phone = '('.$matches[1].') '.$matches[2].'-'.$matches[3];
+			$result = $phone;
+		} else if ($mobilenumber == 0) {
+			$result = "&nbsp;";
+		} else {
+			$result = $mobilenumber;
+		}
+		return $result;
+	}
+
 ?>

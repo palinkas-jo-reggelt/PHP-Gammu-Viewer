@@ -46,7 +46,7 @@ a:hover {
 	}
 
 .wrapper {
-	max-width: 920px;
+	max-width: 1200px;
 	position: relative;
 	margin: 20px auto 30px auto;
 	padding-top: 10px;
@@ -138,6 +138,7 @@ table.section th, table.section td {
 	font-size: 30px;
 	text-align: center;
 	font-family: "Oswald", sans-serif;
+	padding: 5px;
 	}
 	
 .section h2 {
@@ -152,14 +153,16 @@ table.section th, table.section td {
 
 .secleft {
 	float: left;
-	width: 13%;
-	text-align: right;
+	/* width: 50%; */
 	font-weight: bold;
+	padding: 10px;
 	}
 
 .secright {
 	float: right;
-	width: 85%;
+	/* width: 50%; */
+	text-align: right;
+	padding: 10px;
 	}
 
 .footer {
@@ -178,14 +181,186 @@ li {
 	font-size: 10pt;
 	}
 	
+
+/* ###  NEW TABLE CSS  ### */
+
+.overborder {
+	outline: 1px solid black;
+	border-radius: 5px;
+}
+
+.div-table {
+	display: table;
+	width: 100%;
+	font-size: 0.8em;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.div-table-row-header {
+	display: table-row;
+	font-weight: bold;
+	text-align: center;
+}
+
+.div-table-row {
+	display: table-row;
+}
+
+.div-table-row:nth-of-type(even) { 
+	background: #eee; 
+	border: 1px solid #ccc; 
+}
+
+.center {
+	text-align: center;
+}
+
+.tall {
+	padding: 5px 0;
+}
+
+.narrow {
+	width: 5px;
+}
+
+.green {
+	color: white;
+	background-color: green;
+}
+
+.blue {
+	color: white;
+	background-color: blue;
+}
+
+.red {
+	color: white;
+	background-color: red;
+}
+
+.timestamp {
+	width: 110px;
+}
+
+.number {
+	width: 90px;
+}
+
+.files-col {
+	max-width: 400px;
+	word-wrap: break-word;      /* IE 5+ */
+}
+
+.whitespace {
+	white-space: pre;           /* CSS 2.0 */
+	white-space: pre-wrap;      /* CSS 2.1 */
+	white-space: pre-line;      /* CSS 3.0 */
+	white-space: -pre-wrap;     /* Opera 4-6 */
+	white-space: -o-pre-wrap;   /* Opera 7 */
+	white-space: -moz-pre-wrap; /* Mozilla */
+	white-space: -hp-pre-wrap;  /* HP Printers */
+}
+
+.div-table-col {
+	display: table-cell;
+	padding: 3px;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+}
+
+/* ###  MOBILE DEVICES  ### */
 @media only screen and (max-width: 629px) {
-ul {
-	list-style-type: none;
-	padding: 0;
+
+	/* ###  NEW TABLE CSS  ### */
+	.div-table, .div-table-row-header, .div-table-row, .div-table-col { 
+		display: block; 
+	}
+	
+	.div-table {
+		border: none;
 	}
 
-li {
-	padding: 0;
-	display: inline;
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.div-table-row-header { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
 	}
-}	
+	
+	.white:before {
+		color: white;
+	}
+
+	.div-table-row { 
+		border: none;
+		border-left: 1px solid #ccc; 
+		border-right: 1px solid #ccc; 
+	}
+	
+	.div-table-col { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #e6e6e6;
+		position: relative;
+		padding-left: 100px; 
+		text-align: left;
+		word-wrap: break-word;      /* IE 5+ */
+	}
+
+	.div-table-col:before { 
+		/* Now like a table header */
+		border: none;
+		position: absolute;
+		top: 3px;
+		left: 6px;
+		padding-right: 10px; 
+		/* Label the data */
+		content: attr(data-column);
+		font-weight: bold;
+	}
+
+	.narrow {
+		max-width: 0px;
+	}
+
+	.description-col {
+		min-width: 0px;
+	}
+
+	.timestamp {
+		width: calc(100% - 102px);
+	}
+
+	.number {
+		width: calc(100% - 102px);
+	}
+
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	li {
+		padding: 0;
+		display: inline;
+	}
+
+	.secleft {
+		display: block; 
+		float: none;
+		width: 100%;
+		font-weight: bold;
+		padding: 5px;
+	}
+
+	.secright {
+		display: block; 
+		float: none;
+		width: 100%;
+		text-align: left;
+		padding: 5px;
+	}
+
+
+}

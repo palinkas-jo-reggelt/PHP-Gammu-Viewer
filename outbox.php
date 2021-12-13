@@ -18,54 +18,76 @@
 		UNION ALL
 		(SELECT 
 			a.ID,
+			a.DestinationNumber AS Number,
 			a.Status,
 			a.SendingDateTime,
-			a.DestinationNumber AS Number,
 			b.TextDecoded,
 			b.SequencePosition AS Sequence
-		FROM outbox a JOIN outbox_multipart b
-			 on a.ID = b.ID )  
+		FROM outbox a 
+		JOIN outbox_multipart b on a.ID = b.ID )  
 		ORDER BY ID ASC, Sequence ASC
 	");
 	$sql->execute();
 
 	if ($outbox_records > 0){
-		echo "<div class='section'>";
-		echo "<b>CURRENT OUTBOX</b>:<br />";
-		echo "<table class='section'>
-		<tr>
-		<th> </th>
-		<th>Send At</th>
-		<th>Number</th>
-		<th colspan='2'>Message</th>
-		</tr>";
+		echo "
+	<div class='section'>
+		<b>CURRENT OUTBOX</b>:<br>
+		<div class='overborder'>
+			<div class='div-table'>
+				<div class='div-table-row-header'>
+					<div class='div-table-col center narrow'></div>
+					<div class='div-table-col timestamp'>TimeStamp</div>
+					<div class='div-table-col number'>To</div>
+					<div class='div-table-col'>Message</div>
+				</div>
+		";
 
 		while($row = $sql->fetch(PDO::FETCH_ASSOC)){
-			echo "<tr>";
+			echo "
+				<div class='div-table-row'>
+			";
 
 			if (($row['Status']=="SendingOK") || ($row['Status']=="SendingOKNoReport") || ($row['Status']=="Reserved")) {
-				echo "<td style='background-color:#008000;color:white;text-align:center;'>O</td>"; 
+				echo "
+					<div class='div-table-col green narrow' data-column='Outbox'>&nbsp;</div>"; 
 			} else {
-				echo "<td style='color:white; background-color: #FF0000;text-align:center;'>E</td>";
+				echo "
+					<div class='div-table-col red narrow' data-column='Error'>&nbsp;</div>";
 			}
 
-			echo "<td>".date("y/m/d H:i:s", strtotime($row['SendingDateTime']))."</td>";
+			echo "	<div class='div-table-col center' data-column='Timestamp'>".date("y/m/d H:i:s", strtotime($row['SendingDateTime']))."</div>";
 
 			$num = str_replace($ServerLocation['CountryCode'], '', $row['Number']);
-			if (array_key_exists($num,$Contacts)) {echo "<td>".$Contacts[$num]."</td>";} else {echo "<td>".$num."</td>";}
+			if (array_key_exists($num,$Contacts)) {
+				echo "	
+					<div class='div-table-col number' data-column='To'>".$Contacts[$num]."</div>";
+			} else {
+				echo "	
+					<div class='div-table-col number' data-column='To'>".displayMobileNumber($num)."</div>";
+			}
 
-			$textMsg = preg_replace('(https?:\/\/\S+)', '<a href="$0" target="_blank">$0</a> ', $row['TextDecoded']);
-			echo "<td colspan='3'>".$textMsg."</td>";
+			if ($UseShortURL) {
+				if ($ShortURLSSL){$HTTP = "https://";} else {$HTTP = "http://";}
+				$ShortURLRegex = "((".$ShortURLDomain.")\/\S+)";
+				$textMsg = preg_replace($ShortURLRegex, '<a href="'.$HTTP.'$0" target="_blank">$0</a>', $row['TextDecoded']);
+			} else {
+				$textMsg = $row['TextDecoded'];
+			}
+			echo "	<div class='div-table-col' data-column='Message'>".$textMsg."</div>";
 
-			echo "</tr>";
+			echo "
+				</div>"; // End of div-table-row
 		}
 
-		echo "<tr>";
-		echo "<td colspan='3', style='color:white;background-color:#666666;opacity:0.5;text-align:right;'>Color Key Code:</td>";
-		echo "<td style='color:white;background-color:#008000;opacity:0.4;text-align:center;'>O = OK</td>";
-		echo "<td style='color:white;background-color:#FF0000;opacity:0.4;text-align:center;'>E = ERROR</td>";
-		echo "</tr>";
-		echo "</table>";
-		echo "</div>";
+		echo "
+			</div>"; // End of div-table
+
+		echo "
+		</div>"; // End of overborder
+
+		echo "
+	</div>"; // End of section
+
 	}
 ?>
