@@ -8,7 +8,7 @@
 		</tr>
 		<tr>
 			<td>Date & Time: </td>
-			<td><input type="text" name="SendAt" id="SendAt" pattern="^(((20[1-3][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]))\s((0[1-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])))$" title="YYYY-MM-DD HH:MM:SS" autocomplete="off"></td>
+			<td><input type="text" name="SendAt" id="datepicker" pattern="^(((20[1-3][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]))\s((0[1-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])))$" title="YYYY-MM-DD HH:MM:SS" autocomplete="off"></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -29,3 +29,13 @@
 </form>
 
 </div>
+
+<script>
+    jQuery(function($) {
+        $('#datepicker').datetimepicker({ 
+			dateFormat: 'yy-m-d',
+			timeFormat: 'hh:mm:ss',
+			minDate: 0
+		}).val();
+    });
+  </script>
