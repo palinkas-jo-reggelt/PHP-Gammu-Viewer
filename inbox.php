@@ -64,14 +64,19 @@
 		echo "<b>MESSAGE HISTORY</b>: ".$total_rows." Messages (Page: ".$page." of ".$total_pages.")";
 	} else {
 		if ($total_rows == 0){
-			echo "SEARCH RESULTS: No results for \"<b>".$search."</b>\"";
+			echo "<b>SEARCH RESULTS</b>: No results for \"<b>".$search."</b>\"";
 		} else {
-			echo "SEARCH RESULTS: ".$total_rows." Result".$singular." for \"<b>".$search."</b>\" (Page: ".$page." of ".$total_pages.")";
+			echo "<b>SEARCH RESULTS</b>: ".$total_rows." Result".$singular." for \"<b>".$search."</b>\" (Page: ".$page." of ".$total_pages.")";
 		}
 	}
 	
 	echo "
 		<div class='overborder'>
+			<div id='barchart'>
+				<div style='color:white;background-color:green;'>S = Sent Items</div>
+				<div style='color:white;background-color:blue;'>I = Inbox</div>
+				<div style='color:white;background-color:red;'>E = Error</div>
+			</div>
 			<div class='div-table'>
 				<div class='div-table-row-header'>
 					<div class='div-table-col center narrow'></div>
@@ -87,13 +92,13 @@
 		";
 
 		if($row['Status']=="SendingOKNoReport") {
-			echo "	<div class='div-table-col green narrow' data-column='Sent'>&nbsp;</div>";
+			echo "	<div class='div-table-col green narrow center' data-column='Sent'><span class='greenbox'>S</span></div>";
 			$tofrom = "To";
 		} else if ($row['Status']=="SendingError") {
-			echo "	<div class='div-table-col red narrow' data-column='Error'>&nbsp;</div>";
+			echo "	<div class='div-table-col red narrow center' data-column='Error'><span class='redbox'>E</span></div>";
 			$tofrom = "To";
 		} else {
-			echo "	<div class='div-table-col blue narrow' data-column='Inbox'>&nbsp;</div>";
+			echo "	<div class='div-table-col blue narrow center' data-column='Inbox'><span class='bluebox'>I</span></div>";
 			$tofrom = "From";
 		}
 
@@ -122,7 +127,7 @@
 			
 	echo "
 			</div>"; //End of div-table
-
+			
 	echo "
 			<div class='secleft'>
 	";

@@ -239,6 +239,18 @@ li {
 	background-color: red;
 }
 
+.greenbox {
+	color: white;
+}
+
+.bluebox {
+	color: white;
+}
+
+.redbox {
+	color: white;
+}
+
 .timestamp {
 	width: 110px;
 }
@@ -267,6 +279,24 @@ li {
 	padding: 3px;
 	border-right: 1px solid #ccc;
 	border-top: 1px solid #ccc;
+}
+
+/* ###  BAR CHART  ### */
+#barchart {
+	display: grid;
+	overflow: hidden;
+	width: 100%;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+#barchart div {
+	color: white;
+	font-weight: bold;
+	font-size: 0.7em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 5px;
 }
 
 /* ###  MOBILE DEVICES  ### */
@@ -321,7 +351,7 @@ li {
 	}
 
 	.narrow {
-		max-width: 0px;
+		max-width: 10px;
 	}
 
 	.description-col {
@@ -360,6 +390,18 @@ li {
 		width: 100%;
 		text-align: left;
 		padding: 5px;
+	}
+
+	.greenbox {
+		color: green;
+	}
+
+	.bluebox {
+		color: blue;
+	}
+
+	.redbox {
+		color: white;
 	}
 
 
