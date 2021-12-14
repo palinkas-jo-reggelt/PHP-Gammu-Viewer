@@ -34,6 +34,10 @@
 	<div class='section'>
 		<b>CURRENT OUTBOX</b>:<br>
 		<div class='overborder'>
+			<div id='barchart' style='grid-template-columns: 1fr 1fr;'>
+				<div style='color:white;background-color:green;'>O = OK</div>
+				<div style='color:white;background-color:red;'>E = Error</div>
+			</div>
 			<div class='div-table'>
 				<div class='div-table-row-header'>
 					<div class='div-table-col center narrow'></div>
@@ -50,10 +54,10 @@
 
 			if (($row['Status']=="SendingOK") || ($row['Status']=="SendingOKNoReport") || ($row['Status']=="Reserved")) {
 				echo "
-					<div class='div-table-col green narrow' data-column='Outbox'>&nbsp;</div>"; 
+					<div class='div-table-col green narrow' data-column='Outbox'>O</div>"; 
 			} else {
 				echo "
-					<div class='div-table-col red narrow' data-column='Error'>&nbsp;</div>";
+					<div class='div-table-col red narrow' data-column='Error'>E</div>";
 			}
 
 			echo "	<div class='div-table-col center' data-column='Timestamp'>".date("y/m/d H:i:s", strtotime($row['SendingDateTime']))."</div>";

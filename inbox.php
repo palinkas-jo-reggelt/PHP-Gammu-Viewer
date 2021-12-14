@@ -72,7 +72,7 @@
 	
 	echo "
 		<div class='overborder'>
-			<div id='barchart'>
+			<div id='barchart' style='grid-template-columns: 1fr 1fr 1fr;'>
 				<div style='color:white;background-color:green;'>S = Sent Items</div>
 				<div style='color:white;background-color:blue;'>I = Inbox</div>
 				<div style='color:white;background-color:red;'>E = Error</div>

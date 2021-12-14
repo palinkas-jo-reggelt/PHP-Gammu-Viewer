@@ -286,7 +286,7 @@ li {
 	display: grid;
 	overflow: hidden;
 	width: 100%;
-	grid-template-columns: 1fr 1fr 1fr;
+	/* grid-template-columns: 1fr 1fr 1fr; */
 }
 
 #barchart div {
