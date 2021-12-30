@@ -54,10 +54,10 @@
 
 			if (($row['Status']=="SendingOK") || ($row['Status']=="SendingOKNoReport") || ($row['Status']=="Reserved")) {
 				echo "
-					<div class='div-table-col green narrow' data-column='Outbox'>O</div>"; 
+					<div class='div-table-col green narrow' data-column='Outbox'><span class='greenbox'>O</span></div>"; 
 			} else {
 				echo "
-					<div class='div-table-col red narrow' data-column='Error'>E</div>";
+					<div class='div-table-col red narrow' data-column='Error'><span class='redbox'>E</span></div>";
 			}
 
 			echo "	<div class='div-table-col center' data-column='Timestamp'>".date("y/m/d H:i:s", strtotime($row['SendingDateTime']))."</div>";
