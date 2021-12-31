@@ -67,4 +67,7 @@ $ShortURLSSL      = True;              // True prefixes https://, False prefixes
 /*  MESSAGE HISTORY: Number of records per page */
 $no_of_records_per_page = 20;
 
+/* HIDE OUTBOX: True = do not display outbox if no messages. False = display outbox all the time. */
+$hideOutbox = True;
+
 ?>

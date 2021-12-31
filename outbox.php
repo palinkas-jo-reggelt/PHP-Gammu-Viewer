@@ -29,7 +29,7 @@
 	");
 	$sql->execute();
 
-	if ($outbox_records > 0){
+	if (($outbox_records > 0) || (!$hideOutbox)) {
 		echo "
 	<div class='section'>
 		<b>CURRENT OUTBOX</b>:<br>
@@ -94,4 +94,6 @@
 	</div>"; // End of section
 
 	}
+	
+
 ?>
